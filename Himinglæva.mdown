@@ -1,0 +1,50 @@
+#Ægir External API AKA *Himinglæva*
+
+If module exists and is enabled this API should use Ægir solr server (Hrönn).
+
+## Platforms
+  *  Browse platforms
+     GET /api/platform
+  *  Create new platform
+     POST /api/platform
+  *  Platform overview (sites in each platform etc, last verification)
+     GET /api/platform/:nid
+  *  Perform actions on platform
+     *  Verify
+     *  Delete
+     *  Lock
+     *  Migrate
+  *  Edit platform information
+  *  Packages
+
+## Sites
+  *  Create new site
+  *  Browse sites
+  *  Search sites
+  *  View site
+  *  Edit site information (add domain aliases)
+  *  Packages
+  *  Perform actions on site
+     *  Install
+     *  Backup
+     *  Clone
+     *  Disable
+     *  Reset Password
+     *  Migrate
+     *  Restore
+     *  Verify
+
+## Servers
+  *  View servers
+  *  Verify
+  *  Edit servers
+  *  Add servers
+
+## Tasks / Queue
+  *  Filter tasks
+  *  View queue
+
+## Other functionality
+  *  User management?
+  *  API-call that returns the current users access levelt
+  *  OAuth-authentication
