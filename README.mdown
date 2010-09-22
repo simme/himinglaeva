@@ -1,0 +1,6 @@
+# Himinglæva - External API for Ægir
+
+This is shot at creating an external API for the fantastic hosting system 
+[Ægir](http://aegirproject.org "Official Ægir Site").
+
+This has *just been started* and it's by no means ready for use.
