@@ -1,0 +1,30 @@
+<?php
+// $Id$
+
+/**
+ * Implementation of hook_enable().
+ */
+function himinglaeva_enable() {
+  // Need to flush autoload cache
+  autoload_flush_caches();
+}
+
+/**
+ * Implementation of hook_autoload_info().
+ */
+function himinglaeva_autoload_info() {
+  return array(
+    'PlatformsResource' => array(
+      'file'  => 'resources/platforms.php',
+    ),
+  );
+}
+
+/**
+ * Implementation of hook_services_resources().
+ */
+function himinglaeva_services_resources() {
+  return array(
+    'platform' => ServicesOop::definitionFromClass('PlatformsResource'),
+  );
+}
