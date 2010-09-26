@@ -1,7 +1,5 @@
 #Ægir External API AKA *Himinglæva*
 
-If module exists and is enabled this API should use Ægir solr server (Hrönn).
-
 ## Platforms
   *  Browse platforms
      GET /api/platform
@@ -46,5 +44,5 @@ If module exists and is enabled this API should use Ægir solr server (Hrönn).
 
 ## Other functionality
   *  User management?
-  *  API-call that returns the current users access levelt
+  *  API-call that returns the current users access levels
   *  OAuth-authentication
