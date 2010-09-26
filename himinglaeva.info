@@ -1,0 +1,14 @@
+; $Id$
+name = Himinglæva
+description = External Ægir API
+package = Himinglæva
+
+dependencies[] = autoload
+dependencies[] = services
+dependencies[] = services_oop
+dependencies[] = services_oauth
+dependencies[] = rest_server
+dependencies[] = oauth
+
+core = "6.x"
+php = "5.2"
