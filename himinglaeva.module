@@ -1,9 +1,6 @@
 <?php
 // $Id$
 
-function himinglaeva_init() {
-  error_log(print_r('hej', TRUE));
-}
 /**
  * Implementation of hook_enable().
  */

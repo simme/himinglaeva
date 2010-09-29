@@ -94,10 +94,10 @@ class PlatformsResource {
    *  All, locked or enabled
    * @return  object
    *
-   * @Access(callback='PlatformResource::access', args={'index'}, appendArgs=true)
+   * @Access(callback='PlatformsResource::access', args={'index'}, appendArgs=true)
    */
   public static function index($page = 0, $limit = 0, $filter = 'all') {
-    $platforms = array();
+    $platforms = array('hej');
 
     switch (strtolower($filter)) {
       case 'locked':
