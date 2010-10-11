@@ -17,6 +17,9 @@ function himinglaeva_autoload_info() {
     'PlatformsResource' => array(
       'file'  => 'resources/platforms.php',
     ),
+    'HiminglaevaException' => array(
+      'file'  => 'himinglaevaException.php',
+    ),
   );
 }
 
