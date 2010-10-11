@@ -28,3 +28,20 @@ function himinglaeva_services_resources() {
     'platform' => ServicesOop::definitionFromClass('PlatformsResource'),
   );
 }
+
+/**
+ * Simple helper function for returning a status response to the client
+ *
+ * @param   bool      $status
+ *  TRUE for success, FALSE for error
+ * @param   string    $message
+ * @return  array
+ */
+function himinglaeva_status($status, $message = FALSE) {
+  $response = array();
+  $response['status'] = $status ? 'success' : 'error';
+  if (is_string($message)) {
+    $response['msg'] = $message;
+  }
+  return $response;
+}
