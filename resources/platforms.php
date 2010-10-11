@@ -1,8 +1,6 @@
 <?php
 // $Id$
 
-class PlatformsResourceException extends Exception {}
-
 /**
  * @file
  * Platforms Resource
@@ -131,11 +129,11 @@ class PlatformsResource {
    * @access  public
    * @param   int       $nid
    * @return  object    $this
-   * @throws  PlatformsResourceException
+   * @throws  HiminglaevaException
    */
   public function setNid($nid) {
     if (!preg_match('/^[0-9]+$/', $nid)) {
-      throw new PlatformsResourceException('Platform nid must be numeric.');
+      throw new HiminglaevaException('Platform nid must be numeric.');
     }
 
     $this->nid = (int)$nid;
@@ -149,11 +147,11 @@ class PlatformsResource {
    * @access  public
    * @param   string    $name
    * @return  object    $this
-   * @throws  PlatformsResourceException
+   * @throws  HiminglaevaException
    */
   public function setName($name) {
     if (!is_string($name)) {
-      throw new PlatformsResourceException('Platform name must be a string.');
+      throw new HiminglaevaException('Platform name must be a string.');
     }
 
     $this->name = $name;
@@ -167,11 +165,11 @@ class PlatformsResource {
    * @access  public
    * @param   string    $publishPath
    * @return  object    $this
-   * @throws  PlatformsResourceException
+   * @throws  HiminglaevaException
    */
   public function setPublishpath($publishpath) {
     if (!is_string($publishpath)) {
-      throw new PlatformsResourceException('Publish Path must be a string.');
+      throw new HiminglaevaException('Publish Path must be a string.');
     }
 
     $this->publishpath = $publishpath;
@@ -185,12 +183,12 @@ class PlatformsResource {
    * @access  public
    * @param   string    $makefile
    * @return  object    $this
-   * @throws  PlatformsResourceException
+   * @throws  HiminglaevaException
    */
   public function setMakefile($makefile) {
     // Todo: figure out the best way to make sure this is a valid makefile
     if (!is_string($makefile)) {
-      throw new PlatformsResourceException('Makefile must be a string.');
+      throw new HiminglaevaException('Makefile must be a string.');
     }
 
     $this->makefile = $makefile;
@@ -204,11 +202,11 @@ class PlatformsResource {
    * @access  public
    * @param   int       $server
    * @return  object    $this
-   * @throws  PlatformsResourceException
+   * @throws  HiminglaevaException
    */
   public function setWebserver($server) {
     if (!preg_match('/^[0-9]+$/', $server)) {
-      throw new PlatformsResourceException('Web server must be identified by an id.');
+      throw new HiminglaevaException('Web server must be identified by an id.');
     }
 
     $this->webserver = (int)$server;
@@ -222,7 +220,7 @@ class PlatformsResource {
    * @access  public
    * @param   int       $status
    * @return  object    $this
-   * @throws  PlatformsResourceException
+   * @throws  HiminglaevaException
    */
   public function setStatus($status) {
     $statuses = array(
@@ -233,7 +231,7 @@ class PlatformsResource {
     );
 
     if (!in_array($status, $statuses)) {
-      throw new PlatformsResourceException('Invalid platform status.');
+      throw new HiminglaevaException('Invalid platform status.');
     }
 
     $this->status = (int)$status;
@@ -521,14 +519,19 @@ class PlatformsResource {
    * @Access(callback='PlatformsResource::access', args={'lock'}, appendArgs=true)
    */
   public static function lock($data) {
-    // Todo: small query instead of node load to check node type
-    $node = node_load(array('nid' => $data));
-    if ($node->type !== 'platform') {
-      services_error('Specified node is not a platform.' . $node->platform, 404);
-    }
+    try {
+      // Todo: small query instead of node load to check node type
+      $node = node_load(array('nid' => $data));
+      if ($node->type !== 'platform') {
+        throw new HiminglaevaException('Specified node is not a platform.' . $node->platform);
+      }
 
-    hosting_add_task($node->nid, 'lock');
-    return array('status' => 'success');
+      hosting_add_task($node->nid, 'lock');
+    }
+    catch (HiminglaevaException $exception) {
+      return himinglaeva_status(FALSE, $exception->getMessage());
+    }
+    return himinglaeva_status(TRUE, 'Platform lock task was successfully queued.');
   }
 
   /**
@@ -549,7 +552,7 @@ class PlatformsResource {
     }
 
     hosting_add_task($node->nid, 'unlock');
-    return array('status' => 'success');
+    return himinglaeva_status(TRUE, 'Platform unlock task was successfully queued.');
   }
 
   // -------------------------------------------------------------------------
@@ -570,4 +573,15 @@ class PlatformsResource {
     return TRUE;
   }
 
+  /**
+   * Find out if the node with the specified nid is actually a platform
+   *
+   * @access  public
+   * @static
+   * @param   int     $nid
+   * @return  bool    $isPlatform
+   */
+  public static function isPlatform($nid) {
+
+  }
 }
