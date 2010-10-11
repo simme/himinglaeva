@@ -12,6 +12,9 @@
  *
  * Todo: make class methods throw exceptions and do the error handling
  * in the static methods.
+ *
+ * @TargetedAction(name='lock', controller='lock')
+ * @TargetedAction(name='unlock', controller='unlock')
  */
 class PlatformsResource {
 
@@ -494,6 +497,56 @@ class PlatformsResource {
 
     return $platforms;
   }
+
+  // -------------------------------------------------------------------------
+  //  Actions
+  // -------------------------------------------------------------------------
+
+  /**
+   * Locks a platform
+   *
+   * @access  public
+   * @static
+   * @param   object  $data ["data"]
+   * @return  object
+   *
+   * @Access(callback='PlatformsResource::access', args={'lock'}, appendArgs=true)
+   */
+  public static function lock($data) {
+    // Todo: small query instead of node load to check node type
+    $node = node_load(array('nid' => $data));
+    if ($node->type !== 'platform') {
+      services_error('Specified node is not a platform.' . $node->platform, 404);
+    }
+
+    hosting_add_task($node->nid, 'lock');
+    return array('status' => 'success');
+  }
+
+  /**
+   * Unlocks a platform
+   *
+   * @access  public
+   * @static
+   * @param   object  $data ["data"]
+   * @return  object
+   *
+   * @Access(callback='PlatformsResource::access', args={'unlock'}, appendArgs=true)
+   */
+  public static function unlock($data) {
+    // Todo: small query instead of node load to check node type
+    $node = node_load(array('nid' => $data));
+    if ($node->type !== 'platform') {
+      services_error('Specified node is not a platform.' . $node->platform, 404);
+    }
+
+    hosting_add_task($node->nid, 'unlock');
+    return array('status' => 'success');
+  }
+
+  // -------------------------------------------------------------------------
+  //  Helpers
+  // -------------------------------------------------------------------------
 
   /**
    * Access callback
