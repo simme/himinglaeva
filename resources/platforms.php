@@ -1,6 +1,8 @@
 <?php
 // $Id$
 
+class PlatformsResourceException extends Exception {}
+
 /**
  * @file
  * Platforms Resource
@@ -129,10 +131,11 @@ class PlatformsResource {
    * @access  public
    * @param   int       $nid
    * @return  object    $this
+   * @throws  PlatformsResourceException
    */
   public function setNid($nid) {
     if (!preg_match('/^[0-9]+$/', $nid)) {
-      services_error('Platform nid must be numeric.', 500);
+      throw new PlatformsResourceException('Platform nid must be numeric.');
     }
 
     $this->nid = (int)$nid;
@@ -146,10 +149,11 @@ class PlatformsResource {
    * @access  public
    * @param   string    $name
    * @return  object    $this
+   * @throws  PlatformsResourceException
    */
   public function setName($name) {
     if (!is_string($name)) {
-      services_error('Platform name must be a string.', 500);
+      throw new PlatformsResourceException('Platform name must be a string.');
     }
 
     $this->name = $name;
@@ -163,10 +167,11 @@ class PlatformsResource {
    * @access  public
    * @param   string    $publishPath
    * @return  object    $this
+   * @throws  PlatformsResourceException
    */
   public function setPublishpath($publishpath) {
     if (!is_string($publishpath)) {
-      services_error('Publish Path must be a string.', 500);
+      throw new PlatformsResourceException('Publish Path must be a string.');
     }
 
     $this->publishpath = $publishpath;
@@ -180,11 +185,12 @@ class PlatformsResource {
    * @access  public
    * @param   string    $makefile
    * @return  object    $this
+   * @throws  PlatformsResourceException
    */
   public function setMakefile($makefile) {
     // Todo: figure out the best way to make sure this is a valid makefile
     if (!is_string($makefile)) {
-      services_error('Makefile must be a string.', 500);
+      throw new PlatformsResourceException('Makefile must be a string.');
     }
 
     $this->makefile = $makefile;
@@ -198,10 +204,11 @@ class PlatformsResource {
    * @access  public
    * @param   int       $server
    * @return  object    $this
+   * @throws  PlatformsResourceException
    */
   public function setWebserver($server) {
     if (!preg_match('/^[0-9]+$/', $server)) {
-      services_error('Web server must be identified by an id.', 500);
+      throw new PlatformsResourceException('Web server must be identified by an id.');
     }
 
     $this->webserver = (int)$server;
@@ -215,6 +222,7 @@ class PlatformsResource {
    * @access  public
    * @param   int       $status
    * @return  object    $this
+   * @throws  PlatformsResourceException
    */
   public function setStatus($status) {
     $statuses = array(
@@ -225,7 +233,7 @@ class PlatformsResource {
     );
 
     if (!in_array($status, $statuses)) {
-      services_error('Invalid platform status', 500);
+      throw new PlatformsResourceException('Invalid platform status.');
     }
 
     $this->status = (int)$status;
